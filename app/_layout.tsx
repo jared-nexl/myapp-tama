@@ -42,10 +42,11 @@ import {
   SizableText,
   Select,
 } from "tamagui";
-import { SafeAreaView } from "react-native";
+// import { SafeAreaView } from "react-native";
+import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import { Check, ChevronDown, ChevronUp } from "@tamagui/lucide-icons";
 import FormSample from "./FormSample";
-import Homepage from "./Homepage";
+import Homepage from "./(tabs)";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -94,8 +95,8 @@ function RootLayoutNav() {
   const [val, setVal] = React.useState("apple");
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <SafeAreaView>
-        {/* <YStack alignItems="center" gap="$2">
+      {/* <SafeAreaView> */}
+      {/* <YStack alignItems="center" gap="$2">
           <Avatar circular size="$10">
             <Avatar.Image
               accessibilityLabel="Cam"
@@ -145,8 +146,15 @@ function RootLayoutNav() {
           </TabsContent>
         </Tabs>
         <FormSample /> */}
-        <Homepage />
-      </SafeAreaView>
+      {/* <Homepage /> */}
+      {/* <SafeAreaProvider> */}
+      {/* <SafeAreaView> */}
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      </Stack>
+      {/* <Text>Hi</Text> */}
+      {/* </SafeAreaView> */}
+      {/* </SafeAreaProvider> */}
     </ThemeProvider>
   );
 }

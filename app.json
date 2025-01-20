@@ -1,5 +1,6 @@
 {
   "expo": {
+    "newArchEnabled": true,
     "name": "expo-router-example",
     "slug": "expo-router-example",
     "version": "1.0.0",

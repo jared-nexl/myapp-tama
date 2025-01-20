@@ -1,48 +1,174 @@
-import { ExternalLink } from "@tamagui/lucide-icons";
-import { Anchor, H2, Paragraph, XStack, YStack } from "tamagui";
-import { ToastControl } from "app/CurrentToast";
+import React, { useState } from "react";
 
-export default function TabOneScreen() {
+import {
+  View,
+  Text,
+  Select,
+  Sheet,
+  Adapt,
+  H3,
+  ScrollView,
+  Button,
+  XStack,
+  styled,
+} from "tamagui";
+
+import { FlatList } from "react-native";
+
+import {
+  Bell,
+  Bookmark,
+  CheckCheck,
+  Eye,
+  Menu,
+  Plus,
+  Sparkles,
+} from "@tamagui/lucide-icons";
+import MeetingsList from "../MeetingList";
+
+const buttonData = [
+  { id: "1", icon: <Sparkles size="$1" />, size: "$4.5", themeInverse: true },
+  {
+    id: "2",
+    icon: <Bookmark size="$1.5" />,
+    size: "$4.5",
+    fontSize: "$5",
+    text: "Saved insights",
+  },
+  {
+    id: "3",
+    icon: <Eye size="$1.5" />,
+    size: "$4.5",
+    fontSize: "$5",
+    text: "Watching",
+  },
+  { id: "4", icon: <CheckCheck />, size: "$4.5", text: "Button" },
+  { id: "5", size: "$4.5", text: "Button" },
+  { id: "6", size: "$4.5", text: "Button" },
+];
+
+const renderItem = ({ item }) => (
+  <Button
+    icon={item.icon}
+    size={item.size}
+    themeInverse={item.themeInverse}
+    fontSize={item.fontSize}
+  >
+    {item.text}
+  </Button>
+);
+
+const Homepage: React.FC = () => {
+  const [selectedButton, setSelectedButton] = useState("Quick Overview");
+
+  const toggleButton = () => {
+    setSelectedButton((prev) =>
+      prev === "Quick Overview" ? "Daily Digest" : "Quick Overview"
+    );
+  };
+
+  const enterStyle = {
+    x: selectedButton === "Quick Overview" ? 100 : -100,
+    opacity: 0,
+  };
+
+  const SelectedButton = styled(View, {
+    px: "$6",
+    backgroundColor: "black",
+    borderRadius: 100,
+    height: "$4",
+    py: "$3",
+    enterStyle,
+  });
+
   return (
-    <YStack f={1} ai="center" gap="$8" px="$10" pt="$5" bg="$background">
-      {/* <H2>Tamagui + Expo</H2> */}
-
-      {/* <ToastControl />
-
-      <XStack ai="center" jc="center" fw="wrap" gap="$1.5" pos="absolute" b="$8">
-        <Paragraph fos="$5">Add</Paragraph>
-
-        <Paragraph fos="$5" px="$2" py="$1" col="$blue10" bg="$blue5">
-          tamagui.config.ts
-        </Paragraph>
-
-        <Paragraph fos="$5">to root and follow the</Paragraph>
-
-        <XStack
-          ai="center"
-          gap="$1.5"
-          px="$2"
-          py="$1"
-          br="$3"
-          bg="$purple5"
-          hoverStyle={{ bg: '$purple6' }}
-          pressStyle={{ bg: '$purple4' }}
-        >
-          <Anchor
-            href="https://tamagui.dev/docs/core/configuration"
-            textDecorationLine="none"
-            col="$purple10"
-            fos="$5"
-          >
-            Configuration guide
-          </Anchor>
-          <ExternalLink size="$1" col="$purple10" />
+    <View pt="$8" px="$4">
+      <XStack alignItems="center" gap="$2">
+        <Button icon={<Menu size="$1.5" />} unstyled />
+        <H3>Hi Ulkar!</H3>
+        <Button icon={<Bell size="$1.5" />} unstyled ml="auto" />
+      </XStack>
+      {/* <ScrollView horizontal showsHorizontalScrollIndicator={false} pt="$4">
+        <XStack gap="$2">
+          <Button icon={<Sparkles size="$1" />} size="$4.5" themeInverse />
+          <Button icon={<Bookmark size="$1.5" />} size="$4.5" fontSize="$5">
+            Saved insights
+          </Button>
+          <Button icon={<Eye size="$1.5" />} size="$4.5" fontSize="$5">
+            Watching
+          </Button>
+          <Button icon={CheckCheck} size="$4.5">
+            Button
+          </Button>
+          <Button size="$4.5">Button</Button>
+          <Button size="$4.5">Button</Button>
         </XStack>
-
-        <Paragraph fos="$5" ta="center">
-          to configure your themes and tokens.
-        </Paragraph>
-      </XStack> */}
-    </YStack>
+      </ScrollView> */}
+      {/* <FlatList
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ paddingTop: 16 }}
+        data={buttonData}
+        keyExtractor={(item) => item.id}
+        renderItem={renderItem}
+        ItemSeparatorComponent={() => <XStack width={8} />}
+      /> */}
+      <MeetingsList />
+      <View
+        position="absolute"
+        bottom={130}
+        backgroundColor={"rgba(0, 0, 0, 0.35)"}
+        height="$4"
+        alignSelf="center"
+        justifyContent="center"
+        borderRadius={100}
+        // px="$4"
+      >
+        {/* hacked just for presentation, not a good approach */}
+        <XStack alignItems="center">
+          {selectedButton === "Quick Overview" ? (
+            <>
+              <SelectedButton animation="quick">
+                <Text fontSize="$4" color="white">
+                  Quick Overview
+                </Text>
+              </SelectedButton>
+              <UnselectedButton px="$6" onPress={toggleButton}>
+                <Text fontSize="$4" color="white">
+                  Daily Digest
+                </Text>
+              </UnselectedButton>
+            </>
+          ) : (
+            <>
+              <UnselectedButton onPress={toggleButton} animation="quick">
+                <Text fontSize="$4" color="white">
+                  Quick Overview
+                </Text>
+              </UnselectedButton>
+              <SelectedButton px="$6" animation="bouncy">
+                <Text fontSize="$4" color="white">
+                  Daily Digest
+                </Text>
+              </SelectedButton>
+            </>
+          )}
+        </XStack>
+      </View>
+    </View>
   );
-}
+};
+
+// const SelectedButton = styled(View, {
+//   px: "$6",
+//   backgroundColor: "black",
+//   borderRadius: 100,
+//   height: "$4",
+//   py: "$3",
+// });
+
+const UnselectedButton = styled(View, {
+  px: "$6",
+});
+
+export default Homepage;
